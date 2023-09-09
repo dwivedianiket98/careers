@@ -23,6 +23,8 @@ import com.interscope.careers.entity.Candidate;
 import com.interscope.careers.model.CandidateResponseData;
 import com.interscope.careers.service.CandidateService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/candidates")
 public class CandidateController {
@@ -75,9 +77,14 @@ public class CandidateController {
 //	}
 	@PostMapping
 	public ResponseEntity<CandidateResponseData> addCandidate(@RequestParam("resume") MultipartFile resume,
-			@RequestParam String name, @RequestParam String email, @RequestParam String password,
-			@RequestParam Integer age, @RequestParam String skills, @RequestParam String disability,
-			@RequestParam("noticePeriod") Integer notice, @RequestParam String address) {
+															  @RequestParam @Valid String name,
+															  @RequestParam @Valid String email,
+															  @RequestParam @Valid String password,
+															  @RequestParam Integer age,
+															  @RequestParam String skills,
+															  @RequestParam String disability,
+															  @RequestParam("noticePeriod") Integer notice,
+															  @RequestParam String address) {
 
 		System.out.println("[*] file type: " + resume.getContentType());
 		System.out.println("[*] file name: " + StringUtils.cleanPath(resume.getOriginalFilename()));

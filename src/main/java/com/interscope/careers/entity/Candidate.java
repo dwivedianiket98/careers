@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Candidate {
@@ -12,8 +14,11 @@ public class Candidate {
 	@GeneratedValue
 	private Integer id;
 
+	@NotBlank(message = "Name is required!")
 	private String name;
+	@NotBlank(message = "Email is required!")
 	private String email;
+	@NotBlank(message = "Password is required!")
 	private String password;
 	private Integer age;
 	private String address;
@@ -22,6 +27,7 @@ public class Candidate {
 	private String disability;
 
 	@Lob
+	@NotEmpty
 	private byte[] resume;
 
 	public Candidate() {

@@ -49,9 +49,4 @@ public class CandidateServiceImpl implements CandidateService {
 		return candidateOptional.get();
 	}
 
-//	@Override
-//	public Candidate save(Candidate candidate) {
-	// return candidateRepo.save(candidate);
-//	}
-
 }

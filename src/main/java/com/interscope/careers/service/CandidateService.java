@@ -15,6 +15,4 @@ public interface CandidateService {
 
 	Candidate getCandidateById(Integer id);
 
-//	Candidate save(Candidate candidate);
-
 }
