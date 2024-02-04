@@ -6,4 +6,7 @@ currently created:
   * api for uploading and downloading candidate resume
 
 required:
-  * 
+  * login api
+    * should be different for candidates and recruiters
+  * login page
+  * signup api
