@@ -2,6 +2,7 @@ package com.interscope.careers.controller;
 
 import com.interscope.careers.entity.Roles;
 import com.interscope.careers.entity.User;
+import com.interscope.careers.manager.UserManager;
 import com.interscope.careers.model.CandidateResponseModel;
 import com.interscope.careers.model.RecruiterResponseModel;
 import com.interscope.careers.model.UserResponseModel;
@@ -27,6 +28,9 @@ public class UserController {
 
 	@Autowired
 	private UsersService userService;
+
+	@Autowired
+	private UserManager userManager;
 
 	@GetMapping("/users")
 	public ResponseEntity<List<UserResponseModel>> getUsers() {
@@ -113,28 +117,7 @@ public class UserController {
 															  @RequestParam Integer roleId,
 															  @RequestParam String address) {
 
-		UserResponseModel response;
-		if(roleId.equals(Roles.CANDIDATE.getRoleId())) {
-			System.out.println("[*] file type: " + resume.getContentType());
-			System.out.println("[*] file name: " + StringUtils.cleanPath(resume.getOriginalFilename()));
-
-			User user = userService.save(name, email, password, age, address, roleId, resume);
-			// creating resume download url
-			String resumeUrl = "";
-			resumeUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("user/candidates/resume/")
-					.path(user.getId().toString()).toUriString();
-
-			response = new CandidateResponseModel(user.getName(), user.getEmail(),
-					user.getAge(), user.getAddress(), resumeUrl, user.getId());
-		} else if(roleId.equals(Roles.RECRUITER.getRoleId())) {
-			User user = userService.save(name, email, password, age, address, roleId);
-
-			response = new RecruiterResponseModel(user.getName(), user.getEmail(),
-					user.getAge(), user.getAddress(), user.getId());
-		} else
-			response = null;
-
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(userManager.createUser(name, email, password, age, address, roleId, resume));
 	}
 
 	@GetMapping("/candidates/resume/{id}")
