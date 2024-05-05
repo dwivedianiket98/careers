@@ -35,7 +35,7 @@ public class UserController {
 		List<CandidateResponseModel> response = new ArrayList<>();
 		users.forEach(user -> {
 			String resumeUrl = "";
-			if(user.getRoleId() == Roles.CANDIDATE.getRoleId()) {
+			if(user.getRoleId().equals(Roles.CANDIDATE.getRoleId())) {
 				resumeUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("user/candidates/resume/")
 						.path(user.getId().toString()).toUriString();
 			}
@@ -68,10 +68,10 @@ public class UserController {
 		List<User> recruiters = userService.getUsersByRole(Roles.RECRUITER.getRoleId());
 
 		List<RecruiterResponseModel> response = new ArrayList<>();
-		recruiters.forEach(recruiter -> {
+		recruiters.forEach(recruiter ->
 			response.add(new RecruiterResponseModel(recruiter.getName(), recruiter.getEmail(), recruiter.getAge(),
-					recruiter.getAddress()));
-		});
+					recruiter.getAddress()))
+		);
 
 		return ResponseEntity.ok(response);
 	}
@@ -85,7 +85,7 @@ public class UserController {
 
 		String resumeUrl = "NA";
 
-		if(user.getRoleId() == Roles.CANDIDATE.getRoleId()) {
+		if(user.getRoleId().equals(Roles.CANDIDATE.getRoleId())) {
 			resumeUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("user/candidates/resume/")
 					.path(user.getId().toString()).toUriString();
 		}
@@ -108,7 +108,7 @@ public class UserController {
 															  @RequestParam String address) {
 
 		CandidateResponseModel response;
-		if(roleId == Roles.CANDIDATE.getRoleId()) {
+		if(roleId.equals(Roles.CANDIDATE.getRoleId())) {
 			System.out.println("[*] file type: " + resume.getContentType());
 			System.out.println("[*] file name: " + StringUtils.cleanPath(resume.getOriginalFilename()));
 
@@ -120,7 +120,7 @@ public class UserController {
 
 			response = new CandidateResponseModel(user.getName(), user.getEmail(),
 					user.getAge(), user.getAddress(), resumeUrl);
-		} else if(roleId == Roles.RECRUITER.getRoleId()) {
+		} else if(roleId.equals(Roles.RECRUITER.getRoleId())) {
 			User user = userService.save(name, email, password, age, address, roleId);
 
 			response = new CandidateResponseModel(user.getName(), user.getEmail(),
