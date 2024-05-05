@@ -30,7 +30,7 @@ public class UserManagerImpl implements UserManager {
     public UserResponseModel createUser(String name, String email, String password, Integer age, String address, Integer roleId, MultipartFile resume) {
         UserResponseModel response;
 
-        if(roleId.equals(Roles.CANDIDATE.getRoleId())) {
+        if (roleId.equals(Roles.CANDIDATE.getRoleId())) {
             System.out.println("[*] file type: " + resume.getContentType());
             System.out.println("[*] file name: " + StringUtils.cleanPath(resume.getOriginalFilename()));
 
@@ -42,7 +42,7 @@ public class UserManagerImpl implements UserManager {
 
             response = new CandidateResponseModel(user.getName(), user.getEmail(),
                     user.getAge(), user.getAddress(), resumeUrl, user.getId());
-        } else if(roleId.equals(Roles.RECRUITER.getRoleId())) {
+        } else if (roleId.equals(Roles.RECRUITER.getRoleId())) {
             User user = userService.save(name, email, password, age, address, roleId);
 
             response = new RecruiterResponseModel(user.getName(), user.getEmail(),
@@ -60,7 +60,7 @@ public class UserManagerImpl implements UserManager {
 
         String resumeUrl = "NA";
 
-        if(user.getRoleId().equals(Roles.CANDIDATE.getRoleId())) {
+        if (user.getRoleId().equals(Roles.CANDIDATE.getRoleId())) {
             resumeUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("user/candidates/resume/")
                     .path(user.getId().toString()).toUriString();
 
@@ -106,13 +106,13 @@ public class UserManagerImpl implements UserManager {
 
         List<UserResponseModel> response = new ArrayList<>();
         users.forEach(user -> {
-            if(user.getRoleId().equals(Roles.CANDIDATE.getRoleId())) {
+            if (user.getRoleId().equals(Roles.CANDIDATE.getRoleId())) {
                 String resumeUrl = "";
                 resumeUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("user/candidates/resume/")
                         .path(user.getId().toString()).toUriString();
                 response.add(new CandidateResponseModel(user.getName(), user.getEmail(), user.getAge(),
                         user.getAddress(), resumeUrl, user.getId()));
-            } else if(user.getRoleId().equals(Roles.RECRUITER.getRoleId())) {
+            } else if (user.getRoleId().equals(Roles.RECRUITER.getRoleId())) {
                 response.add(new RecruiterResponseModel(user.getName(), user.getEmail(), user.getAge(),
                         user.getAddress(), user.getId()));
             }

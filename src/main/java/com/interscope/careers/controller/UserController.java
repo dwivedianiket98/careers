@@ -1,25 +1,16 @@
 package com.interscope.careers.controller;
 
-import com.interscope.careers.entity.Roles;
-import com.interscope.careers.entity.User;
 import com.interscope.careers.manager.UserManager;
 import com.interscope.careers.model.CandidateResponseModel;
 import com.interscope.careers.model.RecruiterResponseModel;
 import com.interscope.careers.model.UserResponseModel;
-import com.interscope.careers.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

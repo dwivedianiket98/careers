@@ -5,7 +5,6 @@ import com.interscope.careers.model.RecruiterResponseModel;
 import com.interscope.careers.model.UserResponseModel;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
