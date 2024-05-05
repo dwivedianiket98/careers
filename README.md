@@ -33,6 +33,7 @@ up next:
 
 * security
   * login and signup
+  * password encryption for storage
   * role based access
   * token for authentication and authorization
 * Job flow
