@@ -5,12 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class CandidateResponseModel {
-	private String candidateName;
+@NoArgsConstructor
+public class CandidateResponseModel implements UserResponseModel{
+	private String userName;
 	private String email;
-	private Integer candidateAge;
+	private Integer userAge;
 	private String address;
 	private String resume;
+	private Integer userId;
 }

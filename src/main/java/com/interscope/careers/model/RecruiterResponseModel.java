@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecruiterResponseModel {
+public class RecruiterResponseModel implements UserResponseModel {
 	private String userName;
 	private String email;
 	private Integer userAge;
 	private String address;
+	private Integer userId;
 
 }

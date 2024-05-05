@@ -4,6 +4,7 @@ import com.interscope.careers.entity.Roles;
 import com.interscope.careers.entity.User;
 import com.interscope.careers.model.CandidateResponseModel;
 import com.interscope.careers.model.RecruiterResponseModel;
+import com.interscope.careers.model.UserResponseModel;
 import com.interscope.careers.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -27,20 +28,22 @@ public class UserController {
 	@Autowired
 	private UsersService userService;
 
-	// create the UserResponseModel which will be superclass to candidate and recruiter model
 	@GetMapping("/users")
-	public ResponseEntity<List<CandidateResponseModel>> getUsers() {
+	public ResponseEntity<List<UserResponseModel>> getUsers() {
 		List<User> users = userService.getUsers();
 
-		List<CandidateResponseModel> response = new ArrayList<>();
+		List<UserResponseModel> response = new ArrayList<>();
 		users.forEach(user -> {
-			String resumeUrl = "";
 			if(user.getRoleId().equals(Roles.CANDIDATE.getRoleId())) {
+				String resumeUrl = "";
 				resumeUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("user/candidates/resume/")
 						.path(user.getId().toString()).toUriString();
+				response.add(new CandidateResponseModel(user.getName(), user.getEmail(), user.getAge(),
+						user.getAddress(), resumeUrl, user.getId()));
+			} else if(user.getRoleId().equals(Roles.RECRUITER.getRoleId())) {
+				response.add(new RecruiterResponseModel(user.getName(), user.getEmail(), user.getAge(),
+						user.getAddress(), user.getId()));
 			}
-			response.add(new CandidateResponseModel(user.getName(), user.getEmail(), user.getAge(),
-					user.getAddress(), resumeUrl));
 		});
 		return ResponseEntity.ok(response);
 	}
@@ -56,7 +59,7 @@ public class UserController {
 			resumeUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("user/candidates/resume/")
 					.path(candidate.getId().toString()).toUriString();
 			response.add(new CandidateResponseModel(candidate.getName(), candidate.getEmail(), candidate.getAge(),
-					candidate.getAddress(), resumeUrl));
+					candidate.getAddress(), resumeUrl, candidate.getId()));
 		});
 
 		return ResponseEntity.ok(response);
@@ -70,34 +73,37 @@ public class UserController {
 		List<RecruiterResponseModel> response = new ArrayList<>();
 		recruiters.forEach(recruiter ->
 			response.add(new RecruiterResponseModel(recruiter.getName(), recruiter.getEmail(), recruiter.getAge(),
-					recruiter.getAddress()))
+					recruiter.getAddress(), recruiter.getId()))
 		);
 
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<CandidateResponseModel> getCandidateById(@PathVariable Integer id) {
+	public ResponseEntity<UserResponseModel> getCandidateById(@PathVariable Integer id) {
 
 		User user = userService.getUsersById(id);
 
-		CandidateResponseModel response;
+		UserResponseModel response;
 
 		String resumeUrl = "NA";
 
 		if(user.getRoleId().equals(Roles.CANDIDATE.getRoleId())) {
 			resumeUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("user/candidates/resume/")
 					.path(user.getId().toString()).toUriString();
-		}
 
-		response = new CandidateResponseModel(user.getName(), user.getEmail(),
-					user.getAge(), user.getAddress(), resumeUrl);
+			response = new CandidateResponseModel(user.getName(), user.getEmail(),
+					user.getAge(), user.getAddress(), resumeUrl, user.getId());
+		} else {
+			response = new RecruiterResponseModel(user.getName(), user.getEmail(),
+					user.getAge(), user.getAddress(), user.getId());
+		}
 
 		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping
-	public ResponseEntity<CandidateResponseModel> addUser(
+	public ResponseEntity<UserResponseModel> addUser(
 															  @RequestParam(name = "resume", required = false)
 															  MultipartFile resume,
 															  @RequestParam @Valid String name,
@@ -107,7 +113,7 @@ public class UserController {
 															  @RequestParam Integer roleId,
 															  @RequestParam String address) {
 
-		CandidateResponseModel response;
+		UserResponseModel response;
 		if(roleId.equals(Roles.CANDIDATE.getRoleId())) {
 			System.out.println("[*] file type: " + resume.getContentType());
 			System.out.println("[*] file name: " + StringUtils.cleanPath(resume.getOriginalFilename()));
@@ -119,12 +125,12 @@ public class UserController {
 					.path(user.getId().toString()).toUriString();
 
 			response = new CandidateResponseModel(user.getName(), user.getEmail(),
-					user.getAge(), user.getAddress(), resumeUrl);
+					user.getAge(), user.getAddress(), resumeUrl, user.getId());
 		} else if(roleId.equals(Roles.RECRUITER.getRoleId())) {
 			User user = userService.save(name, email, password, age, address, roleId);
 
-			response = new CandidateResponseModel(user.getName(), user.getEmail(),
-					user.getAge(), user.getAddress(), null);
+			response = new RecruiterResponseModel(user.getName(), user.getEmail(),
+					user.getAge(), user.getAddress(), user.getId());
 		} else
 			response = null;
 
