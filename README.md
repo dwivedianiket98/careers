@@ -26,3 +26,17 @@ this branch: 05-May-2024
 * ~~change the endpoint~~
 * ~~create usermanager~~
 * ~~put the logic for creating recruiter or candidate in the usermanager~~
+
+--------------------------------
+
+up next:
+
+* security
+  * login and signup
+  * role based access
+  * token for authentication and authorization
+* Job flow
+  * job manager for job flow control
+  * posting job
+  * applying to a job
+  * editing and changing status
