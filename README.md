@@ -15,6 +15,10 @@ required:
 ----------------------------
 
 this pr:
+
+* ~~users instead of candidates~~
+* ~~user controller, service, repository~~
+
 * a user manager for user flow
 * will call user/create api for creating candidate or a recruiter
 * based on the role passed in the request will create either a candidate or a recruiter
