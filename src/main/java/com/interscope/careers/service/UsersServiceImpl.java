@@ -3,6 +3,7 @@ package com.interscope.careers.service;
 import com.interscope.careers.entity.User;
 import com.interscope.careers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -73,7 +74,7 @@ public class UsersServiceImpl implements UsersService {
 		Optional<User> userOptional = userRepository.findByEmail(email);
 
 		if (!userOptional.isPresent()) {
-			new Exception("Id not found.");
+			new UsernameNotFoundException("User Name not found.");
 		}
 
 		return userOptional.get();
