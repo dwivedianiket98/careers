@@ -42,6 +42,7 @@ public class UserController {
 		return ResponseEntity.ok(userManager.getCandidateById(id));
 	}
 
+	// replace all the params with the user object
 	@PostMapping
 	public ResponseEntity<UserResponseModel> addUser(@RequestParam(name = "resume", required = false)
 															  MultipartFile resume,
