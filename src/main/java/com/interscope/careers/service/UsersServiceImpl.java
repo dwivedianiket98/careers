@@ -67,4 +67,15 @@ public class UsersServiceImpl implements UsersService {
 
 		return usersOptional.get();
 	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		Optional<User> userOptional = userRepository.findByEmail(email);
+
+		if (!userOptional.isPresent()) {
+			new Exception("Id not found.");
+		}
+
+		return userOptional.get();
+	}
 }
