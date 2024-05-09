@@ -21,4 +21,6 @@ public interface UserManager {
     List<UserResponseModel> getUsers();
 
     ResponseEntity<Resource> downloadResume(Integer id);
+
+    UserResponseModel getCandidateByEmail(String email);
 }

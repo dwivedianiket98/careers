@@ -24,7 +24,7 @@ public class ApplicationExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NoSuchElementException.class)
     public String handleNoSuchElementException(NoSuchElementException ex) {
-        return "User Id Not Present!";
+        return "User Not Present!";
     }
 
 }

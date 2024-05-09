@@ -128,4 +128,25 @@ public class UserManagerImpl implements UserManager {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "resume; filename=\"" + candidate.getName() + " Resume.pdf\"")
                 .body(new ByteArrayResource(candidate.getResume()));
     }
+
+    @Override
+    public UserResponseModel getCandidateByEmail(String email) {
+        User user = userService.getUserByEmail(email);
+
+        UserResponseModel response;
+
+        String resumeUrl = "NA";
+
+        if (user.getRoleId().equals(Roles.CANDIDATE.getRoleId())) {
+            resumeUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("user/candidates/resume/")
+                    .path(user.getId().toString()).toUriString();
+
+            response = new CandidateResponseModel(user.getName(), user.getEmail(),
+                    user.getAge(), user.getAddress(), resumeUrl, user.getId());
+        } else {
+            response = new RecruiterResponseModel(user.getName(), user.getEmail(),
+                    user.getAge(), user.getAddress(), user.getId());
+        }
+        return response;
+    }
 }

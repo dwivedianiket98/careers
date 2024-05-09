@@ -14,10 +14,11 @@ public class UserGrantedAuthority implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
+        System.out.println("ROLE_" + Roles.RECRUITER.name());
         if (user.getRoleId() == Roles.RECRUITER.getRoleId()) {
-            return Roles.RECRUITER.name();
+            return "ROLE_" + Roles.RECRUITER.name();
         } else if (user.getRoleId() == Roles.CANDIDATE.getRoleId()) {
-            return Roles.CANDIDATE.name();
+            return "ROLE_" + Roles.CANDIDATE.name();
         } else {
             return null;
         }

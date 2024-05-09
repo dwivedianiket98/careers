@@ -2,6 +2,8 @@ package com.interscope.careers.service;
 
 import com.interscope.careers.entity.User;
 import com.interscope.careers.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class UsersServiceImpl implements UsersService {
 
 //	insert into users values(10001, 'jhandha tola', 23, 'No', 'gandhi@gmail.com', 'Gandhi Boi', 30, 'admin@123', 'not available', 'sleeping');
+
+	Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
 
 	@Autowired
 	private UserRepository userRepository;
@@ -59,7 +63,7 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public User getUsersById(Integer id) {
-
+		logger.info("getUsersById called for id: " + id);
 		Optional<User> usersOptional = userRepository.findById(id);
 
 		if (!usersOptional.isPresent()) {
@@ -70,13 +74,15 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
+	@Transactional
 	public User getUserByEmail(String email) {
+		logger.info("getUsersByEmail called for email: " + email);
 		Optional<User> userOptional = userRepository.findByEmail(email);
-
+		logger.info("user fetched: " + userOptional.isPresent());
 		if (!userOptional.isPresent()) {
 			new UsernameNotFoundException("User Name not found.");
 		}
-
+		logger.info("user present: " + userOptional.get().getName());
 		return userOptional.get();
 	}
 }

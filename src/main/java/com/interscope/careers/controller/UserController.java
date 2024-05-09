@@ -42,8 +42,13 @@ public class UserController {
 		return ResponseEntity.ok(userManager.getCandidateById(id));
 	}
 
+	@GetMapping("/email/{email}")
+	public ResponseEntity<UserResponseModel> getCandidateByEmail(@PathVariable String email) {
+		return ResponseEntity.ok(userManager.getCandidateByEmail(email));
+	}
+
 	// replace all the params with the user object
-	@PostMapping
+	@PostMapping("/register")
 	public ResponseEntity<UserResponseModel> addUser(@RequestParam(name = "resume", required = false)
 															  MultipartFile resume,
 															  @RequestParam @Valid String name,
