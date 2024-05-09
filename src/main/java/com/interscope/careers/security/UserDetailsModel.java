@@ -4,7 +4,9 @@ import com.interscope.careers.entity.Roles;
 import com.interscope.careers.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,16 +15,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class UserDetailsModel implements UserDetails {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserDetailsModel.class);
     User user;
-
-    UserDetailsModel(User currUser) {
-        System.out.println("[*] " + user.getEmail());
-        this.user = currUser;
-    }
 
     private String getUserRole() {
         return "ROLE_" + ((user.getRoleId() == Roles.RECRUITER.getRoleId()) ? Roles.RECRUITER.name() : Roles.CANDIDATE.name());
@@ -49,17 +48,17 @@ public class UserDetailsModel implements UserDetails {
     // need to create db entries for following values
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
