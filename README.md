@@ -16,6 +16,18 @@ this branch: 05-May-2024
 * ~~create usermanager~~
 * ~~put the logic for creating recruiter or candidate in the usermanager~~
 
+**User Creation Request**
+```
+curl --location 'http://localhost:8080/user/register' \
+--form 'name="Travis"' \
+--form 'email="thead@gmail.com"' \
+--form 'password="thead"' \
+--form 'roleId="2"' \
+--form 'address="aussie man"' \
+--form 'resume=@"/C:/Users/HP/Downloads/Resume.pdf"' \
+--form 'age="28"'
+```
+
 --------------------------------
 
 up next:
